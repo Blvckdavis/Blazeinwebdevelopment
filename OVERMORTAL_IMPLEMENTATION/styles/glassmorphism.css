@@ -1,0 +1,173 @@
+/* Glassmorphism Design System */
+
+/* Base glass card */
+.glass-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  transition: all 0.3s ease-out;
+}
+
+.glass-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+/* Glass header */
+.glass-header {
+  background: rgba(20, 30, 40, 0.8);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 16px 24px;
+}
+
+/* Resource bars with glassmorphism */
+.resource-bar {
+  background: linear-gradient(
+    90deg,
+    rgba(74, 144, 226, 0.1),
+    rgba(220, 38, 38, 0.1)
+  );
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  overflow: hidden;
+  height: 24px;
+  position: relative;
+}
+
+.resource-bar-fill {
+  background: linear-gradient(
+    90deg,
+    #4A90E2,
+    #DC2626
+  );
+  height: 100%;
+  transition: width 0.2s ease-out;
+  box-shadow: 0 0 12px rgba(74, 144, 226, 0.5), inset 0 0 8px rgba(255, 255, 255, 0.2);
+}
+
+/* Smooth tab transitions */
+.tab-content {
+  animation: fade-in 0.3s ease-out;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Stage/Realm labels */
+.stage-label,
+.realm-label {
+  position: fixed;
+  top: 80px;
+  left: 24px;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  font-weight: bold;
+  color: #E8DCC8;
+  text-shadow: 0 0 8px rgba(232, 220, 200, 0.3);
+  z-index: 100;
+  pointer-events: none;
+  animation: label-glow 2s ease-in-out infinite;
+}
+
+.realm-label {
+  top: 105px;
+}
+
+@keyframes label-glow {
+  0%, 100% {
+    text-shadow: 0 0 8px rgba(232, 220, 200, 0.3);
+  }
+  50% {
+    text-shadow: 0 0 12px rgba(232, 220, 200, 0.6);
+  }
+}
+
+/* Button states */
+.glass-button {
+  background: rgba(74, 144, 226, 0.2);
+  border: 1px solid rgba(74, 144, 226, 0.5);
+  color: #4A90E2;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-out;
+}
+
+.glass-button:hover:not(:disabled) {
+  background: rgba(74, 144, 226, 0.3);
+  box-shadow: 0 0 12px rgba(74, 144, 226, 0.4);
+  transform: translateY(-2px);
+}
+
+.glass-button:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.glass-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Number animation pop */
+.number-pop {
+  animation: number-pop-animation 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes number-pop-animation {
+  0% {
+    transform: scale(0.8);
+    color: #4A90E2;
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+    color: inherit;
+  }
+}
+
+/* Pulse effect */
+.pulse-text {
+  animation: pulse-text 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-text {
+  0%, 100% {
+    opacity: 1;
+    text-shadow: 0 0 8px rgba(232, 220, 200, 0.3);
+  }
+  50% {
+    opacity: 0.7;
+    text-shadow: 0 0 16px rgba(232, 220, 200, 0.6);
+  }
+}
+
+/* Selection styling */
+::selection {
+  background-color: rgba(74, 144, 226, 0.4);
+  color: #E8DCC8;
+}
+
+/* Smooth focus states */
+*:focus {
+  outline: none;
+}
+
+*:focus-visible {
+  outline: 2px solid #4A90E2;
+  outline-offset: 2px;
+}
