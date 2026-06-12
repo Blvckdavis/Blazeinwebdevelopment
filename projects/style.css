@@ -65,12 +65,13 @@ html {
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-  background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 50%, #16213e 100%);
-  background-attachment: fixed;
-  color: var(--text-primary);
+  background: #0a0f1d !important;
+  color: var(--text-primary) !important;
   line-height: 1.6;
   overflow-x: hidden;
   min-height: 100vh;
+  padding: 2rem;
+  margin: 0;
 }
 
 /* ============================================================================
@@ -78,16 +79,11 @@ body {
    ============================================================================ */
 
 body {
-  display: grid;
-  grid-template-columns: var(--sidebar-width) 1fr;
-  grid-template-rows: auto 1fr auto;
+  display: block;
   min-height: 100vh;
-  gap: 0;
 }
 
 header {
-  grid-column: 1 / -1;
-  grid-row: 1;
   background: var(--glass-bg);
   -webkit-backdrop-filter: var(--glass-blur);
   backdrop-filter: var(--glass-blur);
@@ -97,71 +93,59 @@ header {
   z-index: 50;
 }
 
-/* Fixed Sidebar Navigation */
-nav {
-  grid-column: 1;
-  grid-row: 2;
+/* ============================================================================
+   3.5. DASHBOARD TWO-COLUMN LAYOUT
+   ============================================================================ */
+
+.dashboard-wrapper {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 2rem;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: var(--spacing-2xl);
+  align-items: start;
+}
+
+.wiki-sidebar {
   background: var(--glass-bg);
   -webkit-backdrop-filter: var(--glass-blur);
   backdrop-filter: var(--glass-blur);
-  border-right: var(--glass-border);
-  box-shadow: inset -2px 0 8px rgba(0, 0, 0, 0.1);
-  padding: var(--spacing-xl) var(--spacing-md);
-  overflow-y: auto;
-  overflow-x: hidden;
+  border: var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
   position: sticky;
-  top: var(--header-height);
-  max-height: calc(100vh - var(--header-height));
-  border-radius: 0;
+  top: 2rem;
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
+  box-shadow: inset -2px 0 8px rgba(0, 0, 0, 0.1);
 }
 
-nav::-webkit-scrollbar {
+.wiki-sidebar::-webkit-scrollbar {
   width: 6px;
 }
 
-nav::-webkit-scrollbar-track {
+.wiki-sidebar::-webkit-scrollbar-track {
   background: transparent;
 }
 
-nav::-webkit-scrollbar-thumb {
+.wiki-sidebar::-webkit-scrollbar-thumb {
   background: rgba(0, 208, 132, 0.3);
   border-radius: 3px;
 }
 
-nav::-webkit-scrollbar-thumb:hover {
+.wiki-sidebar::-webkit-scrollbar-thumb:hover {
   background: rgba(0, 208, 132, 0.6);
 }
 
-/* Spacious Scrollable Main Content Viewport */
-main {
-  grid-column: 2;
-  grid-row: 2;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: var(--spacing-2xl);
-  background: transparent;
-}
-
-main::-webkit-scrollbar {
-  width: 8px;
-}
-
-main::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-main::-webkit-scrollbar-thumb {
-  background: rgba(74, 144, 226, 0.3);
-  border-radius: 4px;
-}
-
-main::-webkit-scrollbar-thumb:hover {
-  background: rgba(74, 144, 226, 0.6);
+.wiki-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 footer {
-  grid-column: 1 / -1;
-  grid-row: 3;
   background: var(--glass-bg);
   -webkit-backdrop-filter: var(--glass-blur);
   backdrop-filter: var(--glass-blur);
@@ -469,17 +453,43 @@ button:disabled {
 }
 
 @media (max-width: 768px) {
-  body {
+  .dashboard-wrapper {
     grid-template-columns: 1fr;
-    grid-template-rows: auto auto 1fr auto;
+    gap: var(--spacing-lg);
+    padding: var(--spacing-lg);
   }
   
-  :root {
-    --sidebar-width: 100%;
+  .wiki-sidebar {
+    position: static;
+    max-height: auto;
+    padding: var(--spacing-md);
+    border-right: none;
+    border-bottom: var(--glass-border);
+    border-radius: 0;
+  }
+  
+  .wiki-sidebar nav {
+    display: flex;
+    gap: var(--spacing-lg);
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+  
+  .wiki-sidebar nav ul {
+    display: flex;
+    gap: var(--spacing-md);
+  }
+  
+  .wiki-sidebar nav ul li {
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+  
+  .wiki-sidebar nav a {
+    white-space: nowrap;
   }
   
   header {
-    grid-column: 1 / -1;
     padding: var(--spacing-md);
   }
   
@@ -489,40 +499,6 @@ button:disabled {
   
   header p {
     font-size: 0.9rem;
-  }
-  
-  nav {
-    grid-column: 1 / -1;
-    grid-row: 2;
-    max-height: auto;
-    padding: var(--spacing-md);
-    border-right: none;
-    border-bottom: var(--glass-border);
-    display: flex;
-    gap: var(--spacing-lg);
-    overflow-x: auto;
-    overflow-y: hidden;
-    position: static;
-  }
-  
-  nav ul {
-    display: flex;
-    gap: var(--spacing-md);
-  }
-  
-  nav ul li {
-    margin-bottom: 0;
-    flex-shrink: 0;
-  }
-  
-  nav a {
-    white-space: nowrap;
-  }
-  
-  main {
-    grid-column: 1;
-    grid-row: 3;
-    padding: var(--spacing-lg);
   }
   
   h2 {
@@ -778,33 +754,105 @@ textarea:focus {
    GLASSMORPHISM DESIGN SYSTEM - APPENDED STYLES
    ============================================================================ */
 
-/* Base glass card */
+/* Base glass card - Text container (clean, no blur) */
 .glass-card {
+  position: relative;
+  border-radius: 8px;
+  padding: 20px;
+  transition: all 0.3s ease-out;
+  z-index: 1;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  filter: none;
+}
+
+/* Glass background layer - Blurred background pseudo-element */
+.glass-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: rgba(255, 255, 255, 0.05);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
+  z-index: -1;
   transition: all 0.3s ease-out;
+  pointer-events: none;
 }
 
-.glass-card:hover {
+/* Text content stays clean and unblurred */
+.glass-card * {
+  position: relative;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  filter: none;
+}
+
+.glass-card:hover::before {
   background: rgba(255, 255, 255, 0.08);
   border-color: rgba(255, 255, 255, 0.15);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
-/* Glass header */
+/* Glass header - Text container (clean, no blur) */
 .glass-header {
+  position: relative;
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  filter: none;
+  z-index: 1;
+}
+
+/* Glass header background layer - Blurred background pseudo-element */
+.glass-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: rgba(20, 30, 40, 0.8);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 16px 24px;
+  z-index: -1;
+  pointer-events: none;
 }
 
-/* Resource bars with glassmorphism */
+/* Glass header content stays clean */
+.glass-header * {
+  position: relative;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  filter: none;
+}
+
+/* Resource bars with glassmorphism - Container (clean, no blur) */
 .resource-bar {
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
+  height: 24px;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  filter: none;
+  z-index: 1;
+}
+
+/* Resource bar background layer - Blurred background pseudo-element */
+.resource-bar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: linear-gradient(
     90deg,
     rgba(74, 144, 226, 0.1),
@@ -814,12 +862,12 @@ textarea:focus {
   backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 6px;
-  overflow: hidden;
-  height: 24px;
-  position: relative;
+  z-index: -1;
+  pointer-events: none;
 }
 
 .resource-bar-fill {
+  position: relative;
   background: linear-gradient(
     90deg,
     #4A90E2,
