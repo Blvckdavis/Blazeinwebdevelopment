@@ -623,6 +623,121 @@ section {
 }
 
 /* ============================================================================
+   12. TEXT READABILITY & CONTRAST OPTIMIZATION
+   ============================================================================ */
+
+/* Enhanced Glass Background - More Opaque for Better Text Contrast */
+header,
+nav,
+footer,
+section,
+form {
+  background: rgba(15, 23, 42, 0.65) !important;
+}
+
+/* Text Sharpness in Glass Containers - Headers */
+header h1,
+section h2,
+section h1 {
+  color: var(--text-primary);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+  font-weight: 700;
+}
+
+/* Text Sharpness in Glass Containers - Paragraphs & Body Text */
+header p,
+section p,
+section td,
+section th,
+footer p {
+  color: var(--text-primary);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+/* Text Sharpness - Inline Elements */
+span,
+strong,
+em,
+label {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+/* Nested Card Separation - Inner Content Containers */
+section > div,
+form > div {
+  background: rgba(255, 255, 255, 0.04);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: var(--spacing-md);
+}
+
+section > div:last-child,
+form > div:last-child {
+  margin-bottom: 0;
+}
+
+/* Table Container Enhancement for Better Separation */
+table {
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+table thead {
+  background: rgba(15, 23, 42, 0.6);
+}
+
+table tbody tr {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+table tbody tr:hover {
+  background: rgba(74, 144, 226, 0.12);
+}
+
+/* List Items Inside Glass Containers */
+nav ul li,
+section ul li,
+section ol li {
+  color: var(--text-primary);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+/* Link Text Contrast in Glass Containers */
+nav a,
+section a,
+footer a {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Form Labels & Inputs Text Contrast */
+label {
+  color: var(--text-primary);
+}
+
+input[type="text"],
+textarea {
+  color: var(--text-primary);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+}
+
+input[type="text"]::placeholder,
+textarea::placeholder {
+  color: var(--text-muted);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+/* Header Container Enhanced */
+header {
+  background: rgba(15, 23, 42, 0.75);
+}
+
+/* Sidebar Navigation Container Enhanced */
+nav {
+  background: rgba(15, 23, 42, 0.68);
+}
+
+/* ============================================================================
    12. ACCESSIBILITY & FOCUS STATES
    ============================================================================ */
 
