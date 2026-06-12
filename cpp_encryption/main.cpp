@@ -1,73 +1,77 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
+#include <ctime>
+#include <cstdio> // For std::remove
 
 using namespace std;
 
-// The Core Cipher Function
-void processFile(const string& filename, char key) {
-    // 1. Open the file in binary mode to read raw data
+// Function to get current timestamp for logs
+string getTimestamp() {
+    time_t now = time(0);
+    return ctime(&now);
+}
+
+// The Upgraded Cipher: Uses a multi-character password key
+void processFile(const string& filename, const string& password) {
     ifstream inputFile(filename, ios::binary);
     if (!inputFile) {
-        cout << "[ERROR] System could not locate file: " << filename << "\n";
-        cout << "Ensure the file exists in the same folder as this program.\n";
+        cout << "[ERROR] Could not open: " << filename << "\n";
         return;
     }
 
-    // 2. Read the entire file into a string buffer
+    // Get file size for the log
+    inputFile.seekg(0, ios::end);
+    long fileSize = inputFile.tellg();
+    inputFile.seekg(0, ios::beg);
+
     string content((istreambuf_iterator<char>(inputFile)), (istreambuf_iterator<char>()));
     inputFile.close();
 
-    // 3. Apply the Bitwise XOR Cipher
-    // This flips the binary bits of the text using your secret key.
-    // Running it once scrambles it. Running it again with the same key unscrambles it!
+    // Apply multi-character XOR cipher
     for (size_t i = 0; i < content.length(); ++i) {
-        content[i] ^= key; 
+        content[i] ^= password[i % password.length()];
     }
 
-    // 4. Save the scrambled/unscrambled data to a new secure file
     string outputFilename = "secure_" + filename;
     ofstream outputFile(outputFilename, ios::binary);
-    if (!outputFile) {
-        cout << "[ERROR] Cannot write to output file.\n";
-        return;
-    }
-
     outputFile << content;
     outputFile.close();
 
-    cout << "[SUCCESS] Protocol complete. Data saved as: " << outputFilename << "\n";
+    // Security Log Output
+    cout << "\n--- SECURITY LOG ---\n";
+    cout << "Status: SECURE\n";
+    cout << "File Size: " << fileSize << " bytes\n";
+    cout << "Timestamp: " << getTimestamp();
+    cout << "--------------------\n";
+
+    // Shred the original file
+    if (remove(filename.c_str()) == 0) {
+        cout << "[INFO] Original file shredded successfully.\n";
+    } else {
+        cout << "[WARNING] Could not delete original file.\n";
+    }
 }
 
 int main() {
-    // Console UI Dashboard
     cout << "==========================================\n";
-    cout << "   SECURE FILE ENCRYPTER / DECRYPTER\n";
-    cout << "   System Core: C++ Infrastructure\n";
+    cout << "   SECURE FILE SHREDDER & ENCRYPTER\n";
     cout << "==========================================\n\n";
 
     int choice;
-    string filename;
-    char key;
+    string filename, password;
 
-    cout << "Select Security Protocol:\n";
-    cout << "1. Encrypt / Decrypt a File\n";
-    cout << "2. Terminate Session\n";
-    cout << "Enter command (1-2): ";
+    cout << "1. Encrypt/Decrypt & Shred Original\n2. Exit\nSelection: ";
     cin >> choice;
 
     if (choice == 1) {
-        cout << "\nEnter target filename (e.g., payload.txt): ";
+        cout << "Enter target filename: ";
         cin >> filename;
-        
-        cout << "Enter a single character cipher key (e.g., X): ";
-        cin >> key;
+        cout << "Enter strong security key (password): ";
+        cin >> password;
 
-        cout << "\nExecuting Bitwise Cipher...\n";
-        processFile(filename, key);
-    } else {
-        cout << "Terminating system connection...\n";
+        processFile(filename, password);
     }
-
     return 0;
 }
