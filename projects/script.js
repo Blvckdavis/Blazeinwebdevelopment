@@ -117,6 +117,19 @@ document.addEventListener('DOMContentLoaded', function() {
   // Attach submit event listener
   form.addEventListener('submit', handleFormSubmit);
   
+  // Attach event listener for clear evaluations button
+  const clearButton = document.getElementById('clear-evaluations');
+  clearButton.addEventListener('click', function() {
+    // Remove from localStorage
+    localStorage.removeItem('siwesEvaluations');
+    
+    // Remove all glass-card elements from DOM
+    document.querySelectorAll('.glass-card').forEach(card => card.remove());
+    
+    // Optional: Show confirmation
+    console.log('All evaluations cleared!');
+  });
+  
   // Load and display existing evaluations on page load
   displayAllEvaluations();
 });

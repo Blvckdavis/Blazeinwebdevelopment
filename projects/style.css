@@ -420,6 +420,28 @@ button:disabled {
   transform: none;
 }
 
+/* Danger Button - Destructive Red Theme */
+.danger-button {
+  background: linear-gradient(135deg, rgba(220, 38, 38, 0.15), rgba(239, 68, 68, 0.12));
+  border: 1px solid rgba(220, 38, 38, 0.4);
+  color: #ff6b6b;
+  text-shadow: 0 0 8px rgba(220, 38, 38, 0.6);
+  margin-left: 1rem;
+  transition: all var(--transition-fast);
+}
+
+.danger-button:hover {
+  background: linear-gradient(135deg, rgba(220, 38, 38, 0.25), rgba(239, 68, 68, 0.2));
+  box-shadow: 0 0 20px rgba(220, 38, 38, 0.5), inset 0 0 12px rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+  text-shadow: 0 0 12px rgba(220, 38, 38, 0.8);
+}
+
+.danger-button:active {
+  transform: translateY(0);
+  box-shadow: 0 0 12px rgba(220, 38, 38, 0.3);
+}
+
 /* ============================================================================
    10. RESPONSIVE DESIGN - MOBILE & TABLET
    ============================================================================ */
