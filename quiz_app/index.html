@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interactive Quiz App showcasing intermediate frontend development skills.">
+    <title>Interactive Quiz App</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="app-wrapper">
+        <section class="quiz-container glass-panel">
+            
+            <!-- Quiz Header (Progress) -->
+            <header class="quiz-header" id="quiz-header">
+                <h1 class="quiz-title">General Knowledge Quiz</h1>
+                <div class="progress-container">
+                    <span id="progress-text" class="progress-text">Question 1 of 5</span>
+                    <div class="progress-bar-bg">
+                        <div id="progress-bar-fill" class="progress-bar-fill"></div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Quiz Body (Question and Options) -->
+            <div id="quiz-body" class="quiz-body">
+                <h2 id="question-text" class="question-text">Loading question...</h2>
+                <div id="options-container" class="options-container">
+                    <!-- Options injected via JavaScript -->
+                </div>
+            </div>
+
+            <!-- Quiz Result (Hidden initially) -->
+            <div id="result-screen" class="result-screen" hidden>
+                <div class="score-circle glass-element">
+                    <span id="final-score" class="final-score">0/5</span>
+                </div>
+                <h2 class="result-message" id="result-message">Great Job!</h2>
+                <p class="result-subtext">You've completed the quiz.</p>
+                <button id="restart-btn" class="restart-btn">Restart Quiz</button>
+            </div>
+
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
