@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A professional developer portfolio showcasing full-stack development projects and expertise.">
+    <title>Developer Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="navbar-container">
+                <h1 class="logo">Dev Portfolio</h1>
+                <ul class="nav-menu">
+                    <li><a href="#home" class="nav-link">Home</a></li>
+                    <li><a href="#projects" class="nav-link">Projects</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero-container" id="home">
+        <article class="hero-content">
+            <p class="hero-eyebrow">FULL-STACK DEVELOPER</p>
+            <h1 class="hero-title">Innovative Solutions Through Code</h1>
+            <p class="hero-description">I craft responsive, scalable web applications and systems. Specializing in modern JavaScript, React, C++, and full-stack development with a focus on performance and user experience.</p>
+            <div class="cta-buttons">
+                <a href="#projects" class="cta-button primary">View My Work</a>
+                <button class="cta-button secondary">Get In Touch</button>
+            </div>
+        </article>
+    </section>
+
+    <!-- Main Content Section -->
+    <main class="main-content">
+        <!-- Projects Section -->
+        <section class="projects-section" id="projects">
+            <div class="container">
+                <h2 class="section-title">Featured Projects</h2>
+                <p class="section-subtitle">Explore my recent work and technical expertise</p>
+
+                <!-- Projects Grid -->
+                <div class="projects-grid">
+                    <!-- Project Card 1: C++ File Encrypter -->
+                    <article class="project-card">
+                        <div class="card-header">
+                            <h3 class="card-title">C++ File Encrypter</h3>
+                            <span class="card-tag">C++</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-description">
+                                A robust file encryption utility built with C++ that secures files using advanced cryptographic algorithms. Features include symmetric encryption, file I/O operations, and secure payload management.
+                            </p>
+                            <div class="tech-stack">
+                                <span class="tech-badge">C++</span>
+                                <span class="tech-badge">Cryptography</span>
+                                <span class="tech-badge">File I/O</span>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="https://github.com/Blvckdavis/Blazeinwebdevelopment/tree/main/cpp_encryption" class="card-link" target="_blank" rel="noopener noreferrer">View Project</a>
+                            <a href="#" class="card-link secondary">Learn More</a>
+                        </div>
+                    </article>
+
+                    <!-- Project Card 2: Web Task Tracker -->
+                    <article class="project-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Web Task Tracker</h3>
+                            <span class="card-tag">Web App</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-description">
+                                A modern web-based task management application with real-time updates, persistent storage, and an intuitive user interface. Built with responsive design for desktop and mobile compatibility.
+                            </p>
+                            <div class="tech-stack">
+                                <span class="tech-badge">JavaScript</span>
+                                <span class="tech-badge">HTML5/CSS3</span>
+                                <span class="tech-badge">Local Storage</span>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="#" class="card-link">View Project</a>
+                            <a href="#" class="card-link secondary">Learn More</a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="about-section" id="about">
+            <div class="container">
+                <h2 class="section-title">About Me</h2>
+                <div class="about-content">
+                    <p>I'm a passionate full-stack developer with expertise in modern web technologies and systems programming. I focus on creating scalable, efficient solutions that solve real-world problems.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="contact-section" id="contact">
+            <div class="container">
+                <h2 class="section-title">Get In Touch</h2>
+                <p class="section-subtitle">Let's collaborate on your next project</p>
+                <form class="contact-form" id="contactForm">
+                    <input type="text" placeholder="Your Name" required>
+                    <input type="email" placeholder="Your Email" required>
+                    <textarea placeholder="Your Message" rows="5" required></textarea>
+                    <button type="submit" class="submit-button">Send Message</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2024 Developer Portfolio. All rights reserved.</p>
+            <nav class="footer-nav">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Social Media</a>
+            </nav>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
