@@ -3,16 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A professional developer portfolio showcasing full-stack development projects and expertise.">
-    <title>Developer Portfolio</title>
+    <meta name="description" content="Longe Ayomide David — IT student portfolio showcasing C++ encryption, web development, and systems projects.">
+    <title>Longe Ayomide David | Developer Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Header Section -->
+
+    <!-- Header -->
     <header class="header">
         <nav class="navbar">
             <div class="navbar-container">
-                <h1 class="logo">Dev Portfolio</h1>
+                <a href="#home" class="logo">Ayomide.dev</a>
                 <ul class="nav-menu">
                     <li><a href="#home" class="nav-link">Home</a></li>
                     <li><a href="#projects" class="nav-link">Projects</a></li>
@@ -23,28 +27,30 @@
         </nav>
     </header>
 
-    <section class="hero-container" id="home">
-        <article class="hero-content">
-            <p class="hero-eyebrow">FULL-STACK DEVELOPER</p>
-            <h1 class="hero-title">Innovative Solutions Through Code</h1>
-            <p class="hero-description">I craft responsive, scalable web applications and systems. Specializing in modern JavaScript, React, C++, and full-stack development with a focus on performance and user experience.</p>
+    <!-- Hero -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <p class="hero-eyebrow">IT Student &amp; Developer</p>
+            <h1 class="hero-title">Building practical software,<br>one project at a time.</h1>
+            <p class="hero-description">I'm an Information Technology student focused on systems programming, web development, and infrastructure security. This portfolio documents what I've built and the problems I've solved along the way.</p>
             <div class="cta-buttons">
-                <a href="#projects" class="cta-button primary">View My Work</a>
-                <button class="cta-button secondary">Get In Touch</button>
+                <a href="#projects" class="cta-button primary">See My Projects</a>
+                <a href="#contact" class="cta-button secondary">Get In Touch</a>
             </div>
-        </article>
+        </div>
     </section>
 
-    <!-- Main Content Section -->
+    <!-- Main Content -->
     <main class="main-content">
-        <!-- Projects Section -->
+
+        <!-- Projects -->
         <section class="projects-section" id="projects">
             <div class="container">
                 <h2 class="section-title">Featured Projects</h2>
-                <p class="section-subtitle">Explore my recent work and technical expertise</p>
+                <p class="section-subtitle">Each project started with a specific problem I wanted to solve.</p>
 
-                <!-- Projects Grid -->
                 <div class="projects-grid">
+
                     <!-- Project Card 1: C++ File Encrypter -->
                     <article class="project-card">
                         <div class="card-header">
@@ -52,9 +58,14 @@
                             <span class="card-tag">C++</span>
                         </div>
                         <div class="card-body">
-                            <p class="card-description">
-                                A robust file encryption utility built with C++ that secures files using advanced cryptographic algorithms. Features include symmetric encryption, file I/O operations, and secure payload management.
-                            </p>
+                            <div class="card-context">
+                                <h4>The Challenge</h4>
+                                <p>I needed a way to encrypt local files without relying on third-party tools. Most existing solutions were either overkill for small files or lacked transparency in how they handled keys.</p>
+                            </div>
+                            <div class="card-context">
+                                <h4>The Solution</h4>
+                                <p>Built a command-line utility in C++ that reads a file, applies symmetric XOR-based encryption with a user-provided key, and writes the encrypted output. It handles binary and text files, validates input paths, and keeps the codebase under 200 lines.</p>
+                            </div>
                             <div class="tech-stack">
                                 <span class="tech-badge">C++</span>
                                 <span class="tech-badge">Cryptography</span>
@@ -62,69 +73,75 @@
                             </div>
                         </div>
                         <div class="card-footer">
-                            <a href="https://github.com/Blvckdavis/Blazeinwebdevelopment/tree/main/cpp_encryption" class="card-link" target="_blank" rel="noopener noreferrer">View Project</a>
-                            <a href="#" class="card-link secondary">Learn More</a>
+                            <a href="https://github.com/Blvckdavis/Blazeinwebdevelopment/tree/main/cpp_encryption" class="card-link" target="_blank" rel="noopener noreferrer">View on GitHub</a>
                         </div>
                     </article>
 
-                    <!-- Project Card 2: Web Task Tracker -->
+                    <!-- Project Card 2: Side Projects Collection -->
                     <article class="project-card">
                         <div class="card-header">
-                            <h3 class="card-title">Web Task Tracker</h3>
-                            <span class="card-tag">Web App</span>
+                            <h3 class="card-title">Side Projects Hub</h3>
+                            <span class="card-tag">Web</span>
                         </div>
                         <div class="card-body">
-                            <p class="card-description">
-                                A modern web-based task management application with real-time updates, persistent storage, and an intuitive user interface. Built with responsive design for desktop and mobile compatibility.
-                            </p>
+                            <div class="card-context">
+                                <h4>The Challenge</h4>
+                                <p>I had several smaller experiments and prototypes scattered across folders — a protocol reference wiki, a SIWES evaluation form, task trackers — with no central place to showcase them.</p>
+                            </div>
+                            <div class="card-context">
+                                <h4>The Solution</h4>
+                                <p>Created a clean, document-style page using semantic HTML with a sidebar navigation layout. It includes a networking protocols reference table and a mock SIWES portal with localStorage persistence for evaluation submissions.</p>
+                            </div>
                             <div class="tech-stack">
                                 <span class="tech-badge">JavaScript</span>
-                                <span class="tech-badge">HTML5/CSS3</span>
-                                <span class="tech-badge">Local Storage</span>
+                                <span class="tech-badge">HTML5 / CSS3</span>
+                                <span class="tech-badge">localStorage</span>
                             </div>
                         </div>
                         <div class="card-footer">
-                            <a href="https://github.com/Blvckdavis/Blazeinwebdevelopment/tree/main/side-projects" class="card-link" target="_blank" rel="noopener noreferrer">View Project</a>
-                            <a href="#" class="card-link secondary">Learn More</a>
+                            <a href="https://github.com/Blvckdavis/Blazeinwebdevelopment/tree/main/Side%20Projects" class="card-link" target="_blank" rel="noopener noreferrer">View on GitHub</a>
                         </div>
                     </article>
+
                 </div>
             </div>
         </section>
 
-        <!-- About Section -->
+        <!-- About -->
         <section class="about-section" id="about">
             <div class="container">
                 <h2 class="section-title">About Me</h2>
                 <div class="about-content">
-                    <p>I'm a passionate full-stack developer with expertise in modern web technologies and systems programming. I focus on creating scalable, efficient solutions that solve real-world problems.</p>
+                    <p>I'm an Information Technology student at Bells University of Technology, preparing for my SIWES industrial placement. My interests span systems architecture, database design, and infrastructure security.</p>
+                    <p>I build things to understand how they work — from low-level C++ utilities to full-stack web applications. This portfolio is a running record of that process, not a polished marketing site. Every project here solved a real problem or taught me something I couldn't learn from a textbook.</p>
+                    <p>I'm currently looking for placement opportunities where I can contribute to real engineering work and grow as a developer.</p>
                 </div>
             </div>
         </section>
 
-        <!-- Contact Section -->
+        <!-- Contact -->
         <section class="contact-section" id="contact">
             <div class="container">
                 <h2 class="section-title">Get In Touch</h2>
-                <p class="section-subtitle">Let's collaborate on your next project</p>
+                <p class="section-subtitle">Have a question or an opportunity? Send me a message.</p>
                 <form class="contact-form" id="contactForm">
-                    <input type="text" placeholder="Your Name" required>
-                    <input type="email" placeholder="Your Email" required>
-                    <textarea placeholder="Your Message" rows="5" required></textarea>
+                    <input type="text" name="name" placeholder="Your Name" required>
+                    <input type="email" name="email" placeholder="Your Email" required>
+                    <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
                     <button type="submit" class="submit-button">Send Message</button>
                 </form>
+                <div id="form-status" class="form-status" aria-live="polite"></div>
             </div>
         </section>
+
     </main>
 
-    <!-- Footer Section -->
+    <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
-            <p>&copy; 2024 Developer Portfolio. All rights reserved.</p>
+            <p>&copy; 2026 Longe Ayomide David. All rights reserved.</p>
             <nav class="footer-nav">
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms of Service</a>
-                <a href="#">Social Media</a>
+                <a href="https://github.com/Blvckdavis" target="_blank" rel="noopener noreferrer">GitHub</a>
             </nav>
         </div>
     </footer>

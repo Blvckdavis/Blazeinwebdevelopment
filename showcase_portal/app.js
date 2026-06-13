@@ -1,199 +1,128 @@
-/* ============================================
-   APP.JS - PORTFOLIO INTERACTIVITY
-   ============================================ */
+/* ==========================================================================
+   App.js — Portfolio interactivity
+   Handles navigation, contact form, and scroll-triggered card reveals.
+   ========================================================================== */
 
-/**
- * Initialize the portfolio when DOM is ready
- */
-document.addEventListener('DOMContentLoaded', () => {
-    initializeNavigation();
-    initializeContactForm();
-    initializeScrollAnimations();
-    initializeCTAButton();
+document.addEventListener('DOMContentLoaded', function () {
+    initNavigation();
+    initContactForm();
+    initScrollReveal();
 });
 
-/**
- * Initialize smooth navigation
- */
-function initializeNavigation() {
-    const navLinks = document.querySelectorAll('.nav-link');
+/* --- Navigation ---
+   Smooth-scroll to section when a nav link is clicked.
+   ========================================================================== */
 
-    navLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
+function initNavigation() {
+    var navLinks = document.querySelectorAll('.nav-link');
+
+    navLinks.forEach(function (link) {
+        link.addEventListener('click', function (e) {
             e.preventDefault();
-            const targetId = link.getAttribute('href');
-            const targetSection = document.querySelector(targetId);
+            var targetId = link.getAttribute('href');
+            var target = document.querySelector(targetId);
 
-            if (targetSection) {
-                targetSection.scrollIntoView({ behavior: 'smooth' });
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth' });
             }
         });
     });
 }
 
-/**
- * Initialize contact form submission
- */
-function initializeContactForm() {
-    const contactForm = document.getElementById('contactForm');
+/* --- Contact Form ---
+   Validates inputs, shows inline status messages, simulates submission.
+   ========================================================================== */
 
-    if (contactForm) {
-        contactForm.addEventListener('submit', (e) => {
-            e.preventDefault();
+function initContactForm() {
+    var form = document.getElementById('contactForm');
+    if (!form) return;
 
-            // Get form data
-            const formData = new FormData(contactForm);
-            const data = {
-                name: contactForm.querySelector('input[type="text"]').value,
-                email: contactForm.querySelector('input[type="email"]').value,
-                message: contactForm.querySelector('textarea').value
-            };
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
 
-            // Validate form
-            if (!data.name || !data.email || !data.message) {
-                showNotification('Please fill in all fields', 'error');
-                return;
-            }
+        var name = form.querySelector('input[name="name"]').value.trim();
+        var email = form.querySelector('input[name="email"]').value.trim();
+        var message = form.querySelector('textarea[name="message"]').value.trim();
 
-            if (!isValidEmail(data.email)) {
-                showNotification('Please enter a valid email address', 'error');
-                return;
-            }
+        // Validate
+        if (!name || !email || !message) {
+            setFormStatus('Please fill in all fields.', 'error');
+            return;
+        }
 
-            // Simulate form submission
-            const submitButton = contactForm.querySelector('.submit-button');
-            const originalText = submitButton.textContent;
+        if (!isValidEmail(email)) {
+            setFormStatus('Please enter a valid email address.', 'error');
+            return;
+        }
 
-            submitButton.textContent = 'Sending...';
-            submitButton.disabled = true;
+        // Disable button while "sending"
+        var btn = form.querySelector('.submit-button');
+        var originalLabel = btn.textContent;
+        btn.textContent = 'Sending…';
+        btn.disabled = true;
 
-            // Simulate API call
-            setTimeout(() => {
-                contactForm.reset();
-                submitButton.textContent = originalText;
-                submitButton.disabled = false;
-                showNotification('Message sent successfully! I\'ll get back to you soon.', 'success');
-            }, 1500);
+        // Log the data (no real backend)
+        console.log('Contact form submitted:', { name: name, email: email, message: message });
 
-            console.log('Form Data:', data);
-        });
-    }
+        // Simulate a short delay, then show success
+        setTimeout(function () {
+            form.reset();
+            btn.textContent = originalLabel;
+            btn.disabled = false;
+            setFormStatus('Message sent — I\'ll get back to you soon.', 'success');
+
+            // Clear the status after a few seconds
+            setTimeout(function () { setFormStatus(''); }, 4000);
+        }, 1200);
+    });
 }
 
 /**
- * Initialize scroll animations for project cards
+ * Show a status message below the contact form.
+ * @param {string} text - Message to display (empty string clears it)
+ * @param {'success'|'error'|''} type - Visual variant
  */
-function initializeScrollAnimations() {
-    const projectCards = document.querySelectorAll('.project-card');
+function setFormStatus(text, type) {
+    var el = document.getElementById('form-status');
+    if (!el) return;
 
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
+    el.textContent = text;
+    el.className = 'form-status' + (type ? ' ' + type : '');
+}
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
+/**
+ * Basic email validation.
+ * @param {string} email
+ * @returns {boolean}
+ */
+function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+/* --- Scroll Reveal ---
+   Fades project cards in when they enter the viewport.
+   Uses IntersectionObserver for performance.
+   ========================================================================== */
+
+function initScrollReveal() {
+    var cards = document.querySelectorAll('.project-card');
+
+    // If IntersectionObserver isn't supported, just show everything
+    if (!('IntersectionObserver' in window)) {
+        cards.forEach(function (card) { card.classList.add('visible'); });
+        return;
+    }
+
+    var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
             if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target); // only animate once
             }
         });
-    }, observerOptions);
+    }, { threshold: 0.15 });
 
-    projectCards.forEach(card => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(20px)';
-        card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    cards.forEach(function (card) {
         observer.observe(card);
     });
 }
-
-/**
- * Initialize CTA button functionality
- */
-function initializeCTAButton() {
-    const ctaButton = document.querySelector('.cta-button');
-
-    if (ctaButton) {
-        ctaButton.addEventListener('click', () => {
-            const projectsSection = document.querySelector('#projects');
-            projectsSection.scrollIntoView({ behavior: 'smooth' });
-        });
-    }
-}
-
-/**
- * Validate email address
- * @param {string} email - Email to validate
- * @returns {boolean} - True if valid email
- */
-function isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-}
-
-/**
- * Show notification message
- * @param {string} message - Notification message
- * @param {string} type - Type of notification (success or error)
- */
-function showNotification(message, type = 'success') {
-    const notification = document.createElement('div');
-    notification.className = `notification notification-${type}`;
-    notification.textContent = message;
-    notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        padding: 1rem 1.5rem;
-        background-color: ${type === 'success' ? '#10b981' : '#ef4444'};
-        color: white;
-        border-radius: 8px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-        z-index: 1000;
-        animation: slideInRight 0.3s ease;
-        max-width: 300px;
-    `;
-
-    document.body.appendChild(notification);
-
-    // Remove notification after 3 seconds
-    setTimeout(() => {
-        notification.style.animation = 'slideOutRight 0.3s ease';
-        setTimeout(() => {
-            notification.remove();
-        }, 300);
-    }, 3000);
-}
-
-/**
- * Add CSS animations for notifications
- */
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes slideInRight {
-        from {
-            opacity: 0;
-            transform: translateX(100px);
-        }
-        to {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    }
-
-    @keyframes slideOutRight {
-        from {
-            opacity: 1;
-            transform: translateX(0);
-        }
-        to {
-            opacity: 0;
-            transform: translateX(100px);
-        }
-    }
-`;
-document.head.appendChild(style);
-
-// Log initialization
-console.log('Portfolio initialized successfully!');
