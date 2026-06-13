@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Technical profile and IT protocol wiki by Longe Ayomide David — networking protocols, security concepts, and SIWES placement portal.">
     <title>Technical Profile & IT Protocol Wiki</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    
     <header>
         <h1>Longe Ayomide David | Technical Profile & IT Wiki</h1>
         <p>Welcome to my documentation repository. This page acts as a structural reference for core IT concepts and system frameworks.</p>
@@ -28,18 +31,17 @@
         </aside>
 
         <main class="wiki-content">
-        
+
         <section id="about">
             <h2>About Me & Technical Focus</h2>
             <p>I am an Information Technology student specializing in systems architecture, database design, and infrastructure security. This workspace serves as a live tracking sheet for my development projects and core technical competencies ahead of my upcoming SIWES placement.</p>
         </section>
 
-        
         <section id="protocols">
             <h2>Core Networking & Security Protocols</h2>
             <p>A quick reference matrix detailing critical network infrastructure layers:</p>
-            
-            <table border="1">
+
+            <table>
                 <thead>
                     <tr>
                         <th>Protocol Name</th>
@@ -77,24 +79,21 @@
             </table>
         </section>
 
-        
         <section id="siwes">
             <h2>SIWES Placement Engagement Portal</h2>
             <p>If you are an industry supervisor checking my GitHub repository, you can use this structural mock portal to log administrative reviews:</p>
-            
-            <form action="#" method="POST">
-                <div>
+
+            <form action="#" method="POST" id="siwes-form">
+                <div class="form-group">
                     <label for="company">Organization Name:</label>
                     <input type="text" id="company" name="company" placeholder="e.g., Telecom / Tech Firm" required>
                 </div>
-                <br>
-                <div>
-                    <label for="comments">Evaluation Notes / Requirements:</label><br>
-                    <textarea id="comments" name="comments" rows="4" cols="50" placeholder="Type core technologies your team utilizes..."></textarea>
+                <div class="form-group">
+                    <label for="comments">Evaluation Notes / Requirements:</label>
+                    <textarea id="comments" name="comments" rows="4" placeholder="Type core technologies your team utilizes..."></textarea>
                 </div>
-                <br>
-                <div>
-                    <button type="submit">Submit Evaluation Framework</button>
+                <div class="form-actions">
+                    <button type="submit">Submit Evaluation</button>
                     <button type="button" id="clear-evaluations" class="danger-button">Clear Evaluations</button>
                 </div>
             </form>
@@ -104,8 +103,11 @@
 
     <footer>
         <hr>
-        <p>&copy; 2026 Longe Ayomide David | Built with Pure Semantic HTML.</p>
+        <p>&copy; 2026 Longe Ayomide David | Built with Semantic HTML, CSS & JavaScript.</p>
     </footer>
+
+    <div id="toast" class="toast" aria-live="polite"></div>
+
     <script src="script.js"></script>
 </body>
 </html>

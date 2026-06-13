@@ -1,135 +1,118 @@
-/* ============================================================================
-   SIWES PORTAL - FORM & LOCALSTORAGE MANAGEMENT
-   ============================================================================ */
+/* ==========================================================================
+   SIWES Portal — Form & localStorage Management
+   ========================================================================== */
 
 /**
- * Get all saved evaluations from localStorage
- * @returns {Array} Array of evaluation objects
+ * Show a toast notification instead of alert().
+ * @param {string} message - Text to display
+ * @param {'success'|'error'} type - Toast variant
  */
-function getSiwesEvaluations() {
-  const data = localStorage.getItem('siwesEvaluations');
-  return data ? JSON.parse(data) : [];
+function showToast(message, type = 'success') {
+  const toast = document.getElementById('toast');
+  toast.textContent = message;
+  toast.className = 'toast visible' + (type === 'error' ? ' error' : '');
+
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(function () {
+    toast.classList.remove('visible');
+  }, 2500);
 }
 
 /**
- * Save a new evaluation to localStorage
- * @param {Object} evaluation - Object with organizationName and evaluationNotes
+ * Read evaluations from localStorage.
+ * @returns {Array} Array of evaluation objects
  */
-function saveSiwesEvaluation(evaluation) {
-  const evaluations = getSiwesEvaluations();
+function getEvaluations() {
+  try {
+    return JSON.parse(localStorage.getItem('siwesEvaluations')) || [];
+  } catch (_) {
+    return [];
+  }
+}
+
+/**
+ * Save a single evaluation to localStorage.
+ * @param {Object} evaluation - { organizationName, evaluationNotes, timestamp }
+ */
+function saveEvaluation(evaluation) {
+  var evaluations = getEvaluations();
   evaluations.push(evaluation);
   localStorage.setItem('siwesEvaluations', JSON.stringify(evaluations));
 }
 
 /**
- * Create and display a glass card for an evaluation
- * @param {Object} evaluation - Object with organizationName and evaluationNotes
- * @returns {HTMLElement} The created card element
+ * Create a card DOM element for one evaluation.
+ * @param {Object} evaluation
+ * @returns {HTMLElement}
  */
-function createEvaluationCard(evaluation) {
-  const card = document.createElement('div');
-  card.className = 'glass-card';
-  card.style.marginTop = '1rem';
-  
-  const title = document.createElement('h4');
+function createCard(evaluation) {
+  var card = document.createElement('div');
+  card.className = 'eval-card';
+
+  var title = document.createElement('h4');
   title.textContent = evaluation.organizationName;
-  title.style.color = 'var(--text-primary)';
-  title.style.marginBottom = '0.5rem';
-  
-  const notes = document.createElement('p');
+
+  var notes = document.createElement('p');
   notes.textContent = evaluation.evaluationNotes;
-  notes.style.color = 'var(--text-muted)';
-  
+
   card.appendChild(title);
   card.appendChild(notes);
-  
   return card;
 }
 
 /**
- * Display all saved evaluations below the form
+ * Re-render all saved evaluations below the form.
  */
-function displayAllEvaluations() {
-  const siwesSection = document.getElementById('siwes');
-  const form = siwesSection.querySelector('form');
-  
-  // Remove existing evaluation cards (keep only original form)
-  const existingCards = siwesSection.querySelectorAll('.glass-card');
-  existingCards.forEach(card => card.remove());
-  
-  // Get and display all evaluations from localStorage
-  const evaluations = getSiwesEvaluations();
-  evaluations.forEach(evaluation => {
-    const card = createEvaluationCard(evaluation);
-    siwesSection.appendChild(card);
+function renderEvaluations() {
+  var section = document.getElementById('siwes');
+
+  // Remove any previously rendered cards
+  var existing = section.querySelectorAll('.eval-card');
+  existing.forEach(function (el) { el.remove(); });
+
+  // Append one card per saved evaluation
+  getEvaluations().forEach(function (evaluation) {
+    section.appendChild(createCard(evaluation));
   });
 }
 
 /**
- * Handle form submission
+ * Handle form submission.
  */
-function handleFormSubmit(event) {
+function handleSubmit(event) {
   event.preventDefault();
-  
-  // Get form references
-  const form = event.target;
-  const organizationInput = form.querySelector('#company');
-  const notesTextarea = form.querySelector('#comments');
-  
-  // Extract values
-  const organizationName = organizationInput.value.trim();
-  const evaluationNotes = notesTextarea.value.trim();
-  
-  // Validate inputs
-  if (!organizationName || !evaluationNotes) {
-    alert('Please fill in both fields before submitting.');
+
+  var form = event.target;
+  var orgName = form.querySelector('#company').value.trim();
+  var notes = form.querySelector('#comments').value.trim();
+
+  if (!orgName || !notes) {
+    showToast('Please fill in both fields before submitting.', 'error');
     return;
   }
-  
-  // Create evaluation object
-  const evaluation = {
-    organizationName: organizationName,
-    evaluationNotes: evaluationNotes,
+
+  saveEvaluation({
+    organizationName: orgName,
+    evaluationNotes: notes,
     timestamp: new Date().toISOString()
-  };
-  
-  // Save to localStorage
-  saveSiwesEvaluation(evaluation);
-  
-  // Display updated evaluations
-  displayAllEvaluations();
-  
-  // Reset form for next entry
+  });
+
+  renderEvaluations();
   form.reset();
-  
-  // Optional: Show confirmation message
-  console.log('Evaluation saved successfully!', evaluation);
+  showToast('Evaluation saved successfully!');
 }
 
-/**
- * Initialize the script when DOM is ready
- */
-document.addEventListener('DOMContentLoaded', function() {
-  // Get the form inside the #siwes section
-  const siwesSection = document.getElementById('siwes');
-  const form = siwesSection.querySelector('form');
-  
-  // Attach submit event listener
-  form.addEventListener('submit', handleFormSubmit);
-  
-  // Attach event listener for clear evaluations button
-  const clearButton = document.getElementById('clear-evaluations');
-  clearButton.addEventListener('click', function() {
-    // Remove from localStorage
+/* --- Init --- */
+
+document.addEventListener('DOMContentLoaded', function () {
+  var form = document.getElementById('siwes-form');
+  form.addEventListener('submit', handleSubmit);
+
+  document.getElementById('clear-evaluations').addEventListener('click', function () {
     localStorage.removeItem('siwesEvaluations');
-    
-    // Remove all glass-card elements from DOM
-    document.querySelectorAll('.glass-card').forEach(card => card.remove());
-    
-    // Optional: Show confirmation
-    console.log('All evaluations cleared!');
+    document.querySelectorAll('.eval-card').forEach(function (el) { el.remove(); });
+    showToast('All evaluations cleared.');
   });
-  
-  // Load and display existing evaluations on page load
-  displayAllEvaluations();
+
+  renderEvaluations();
 });
