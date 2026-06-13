@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A real-time weather dashboard built with vanilla JavaScript and the Open-Meteo API.">
+    <title>Weather Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <main class="app-wrapper">
+        <div class="app-container">
+
+            <header class="app-header">
+                <h1 class="app-title">Weather</h1>
+            </header>
+
+            <!-- Search -->
+            <form id="search-form" class="search-bar" autocomplete="off">
+                <input
+                    type="text"
+                    id="city-input"
+                    class="search-input glass-element"
+                    placeholder="Search for a city…"
+                    required
+                >
+                <button type="submit" class="search-button glass-element" aria-label="Search">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </button>
+            </form>
+
+            <!-- Error Message -->
+            <div id="error-message" class="error-message glass-element" role="alert" hidden>
+                <p id="error-text"></p>
+            </div>
+
+            <!-- Loading Indicator -->
+            <div id="loading" class="loading glass-element" hidden>
+                <div class="spinner"></div>
+                <p>Fetching forecast…</p>
+            </div>
+
+            <!-- Current Weather Display -->
+            <section id="weather-card" class="weather-card glass-panel" hidden>
+                <div class="weather-main-display">
+                    <h2 id="city-name" class="city-name"></h2>
+                    <p id="weather-date" class="weather-date"></p>
+                    
+                    <div class="weather-visual">
+                        <img id="weather-icon" class="weather-icon" src="" alt="">
+                    </div>
+                    
+                    <div class="temp-display">
+                        <span id="temp-value" class="temp-value"></span>
+                    </div>
+                    <h3 id="weather-desc" class="weather-desc"></h3>
+                </div>
+
+                <div class="weather-details glass-element">
+                    <div class="detail-item">
+                        <span class="detail-label">Feels Like</span>
+                        <span id="feels-like" class="detail-value"></span>
+                    </div>
+                    <div class="detail-divider"></div>
+                    <div class="detail-item">
+                        <span class="detail-label">Humidity</span>
+                        <span id="humidity" class="detail-value"></span>
+                    </div>
+                    <div class="detail-divider"></div>
+                    <div class="detail-item">
+                        <span class="detail-label">Wind</span>
+                        <span id="wind-speed" class="detail-value"></span>
+                    </div>
+                    <div class="detail-divider"></div>
+                    <div class="detail-item">
+                        <span class="detail-label">Pressure</span>
+                        <span id="pressure" class="detail-value"></span>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 Longe Ayomide David &middot; Built with Open-Meteo API</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
