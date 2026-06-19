@@ -19,22 +19,33 @@
                 <h1 class="app-title">Weather</h1>
             </header>
 
-            <!-- Search -->
-            <form id="search-form" class="search-bar" autocomplete="off">
-                <input
-                    type="text"
-                    id="city-input"
-                    class="search-input glass-element"
-                    placeholder="Search for a city…"
-                    required
-                >
-                <button type="submit" class="search-button glass-element" aria-label="Search">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                    </svg>
-                </button>
-            </form>
+            <!-- Search with Autocomplete Dropdown -->
+            <div class="search-wrapper">
+                <form id="search-form" class="search-bar" autocomplete="off">
+                    <input
+                        type="text"
+                        id="city-input"
+                        class="search-input glass-element"
+                        placeholder="Search for a city…"
+                        required
+                        role="combobox"
+                        aria-expanded="false"
+                        aria-controls="autocomplete-list"
+                        aria-autocomplete="list"
+                    >
+                    <button type="submit" class="search-button glass-element" aria-label="Search">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </button>
+                </form>
+
+                <!-- Autocomplete Dropdown (populated dynamically by script.js) -->
+                <ul id="autocomplete-list" class="autocomplete-dropdown glass-panel" role="listbox" hidden>
+                    <!-- City suggestion items are injected here by JavaScript -->
+                </ul>
+            </div>
 
             <!-- Error Message -->
             <div id="error-message" class="error-message glass-element" role="alert" hidden>
