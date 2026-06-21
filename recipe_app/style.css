@@ -1,0 +1,655 @@
+/* ============================================================
+   style.css — FlavorFind Recipe Discovery App
+   Dark glassmorphism theme, consistent with portfolio projects.
+   ============================================================ */
+
+/* --- Design Tokens --- */
+:root {
+    /* Accent — Amber Gold on Burgundy */
+    --accent: #f59e0b;
+    --accent-hover: #d97706;
+    --accent-glow: rgba(245, 158, 11, 0.3);
+    --accent-warm: #fb923c;
+
+    /* Text — Warm Whites */
+    --text-main: #fef3c7;
+    --text-muted: #d6d3d1;
+    --text-faint: #78716c;
+
+    /* Background — Deep Burgundy to Charcoal */
+    --bg-gradient: linear-gradient(135deg, #450a0a 0%, #1c1917 50%, #292524 100%);
+
+    /* Glassmorphism — Warm-tinted */
+    --glass-bg: rgba(28, 25, 23, 0.6);
+    --glass-bg-light: rgba(255, 255, 255, 0.04);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-border-hover: rgba(255, 255, 255, 0.18);
+    --glass-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+    --glass-blur: blur(24px);
+
+    --radius-lg: 24px;
+    --radius-md: 16px;
+    --radius-sm: 12px;
+    --radius-xs: 8px;
+
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-base: 0.3s ease;
+}
+
+/* --- Reset --- */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+/* --- Body --- */
+body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: var(--bg-gradient);
+    background-attachment: fixed;
+    color: var(--text-main);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* --- Layout --- */
+.app-wrapper {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    padding: 3rem 1.5rem 2rem;
+}
+
+.app-container {
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* --- Glassmorphism Utilities --- */
+.glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--glass-shadow);
+}
+
+.glass-element {
+    background: var(--glass-bg-light);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    transition: border-color var(--transition-base);
+}
+
+/* --- Header --- */
+.app-header {
+    text-align: center;
+    padding-bottom: 0.25rem;
+}
+
+.app-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-main);
+    letter-spacing: -0.03em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+}
+
+.title-icon {
+    color: var(--accent);
+    filter: drop-shadow(0 0 10px var(--accent-glow));
+}
+
+.app-subtitle {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-top: 0.4rem;
+}
+
+/* --- Search Bar --- */
+.search-bar {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.search-input {
+    flex: 1;
+    padding: 1rem 1.25rem;
+    font-size: 1rem;
+    font-family: inherit;
+    color: var(--text-main);
+    outline: none;
+    transition: all var(--transition-base);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.search-input::placeholder {
+    color: var(--text-muted);
+    opacity: 0.7;
+}
+
+.search-input:focus {
+    background: var(--glass-bg);
+    border-color: var(--accent);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15), 0 0 0 3px var(--accent-glow);
+}
+
+.search-button {
+    width: 54px;
+    height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
+}
+
+.search-button:hover {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px var(--accent-glow);
+}
+
+.search-button:active {
+    transform: translateY(0) scale(0.95);
+}
+
+/* --- Category Filter Bar --- */
+.filter-bar {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.filter-btn {
+    padding: 0.5rem 1.1rem;
+    font-size: 0.8rem;
+    font-family: inherit;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--radius-xs);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.filter-btn:hover {
+    color: var(--text-main);
+    background: var(--glass-bg-light);
+    border-color: var(--glass-border);
+}
+
+.filter-btn.active {
+    color: var(--accent);
+    background: rgba(245, 158, 11, 0.1);
+    border-color: rgba(245, 158, 11, 0.3);
+}
+
+/* --- Loading State --- */
+.loading {
+    padding: 3rem;
+    text-align: center;
+    color: var(--text-main);
+    font-weight: 500;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    animation: fadeIn 0.3s ease;
+}
+
+.spinner {
+    width: 36px;
+    height: 36px;
+    border: 3px solid rgba(255, 255, 255, 0.15);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+/* --- Error / Empty State --- */
+.error-state {
+    padding: 3rem 2rem;
+    text-align: center;
+    color: var(--text-muted);
+    font-weight: 500;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    animation: fadeIn 0.3s ease;
+}
+
+.error-state svg {
+    opacity: 0.5;
+}
+
+.error-text {
+    font-size: 0.95rem;
+}
+
+/* ============================================================
+   RECIPE GRID — Responsive CSS Grid of Cards
+   ============================================================ */
+.recipe-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.25rem;
+}
+
+/* --- Recipe Card --- */
+.recipe-card {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    transition: all 0.35s var(--ease-out);
+    animation: cardSlideUp 0.5s var(--ease-out) both;
+}
+
+/* Stagger the animation for each card */
+.recipe-card:nth-child(1) { animation-delay: 0.00s; }
+.recipe-card:nth-child(2) { animation-delay: 0.06s; }
+.recipe-card:nth-child(3) { animation-delay: 0.12s; }
+.recipe-card:nth-child(4) { animation-delay: 0.18s; }
+.recipe-card:nth-child(5) { animation-delay: 0.24s; }
+.recipe-card:nth-child(6) { animation-delay: 0.30s; }
+.recipe-card:nth-child(7) { animation-delay: 0.36s; }
+.recipe-card:nth-child(8) { animation-delay: 0.42s; }
+.recipe-card:nth-child(9) { animation-delay: 0.48s; }
+
+.recipe-card:hover {
+    transform: translateY(-6px) scale(1.02);
+    border-color: var(--glass-border-hover);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 0 1px var(--glass-border-hover);
+}
+
+.recipe-card:active {
+    transform: translateY(-2px) scale(0.99);
+}
+
+/* Card Image */
+.card-image-wrapper {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+}
+
+.card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s var(--ease-out);
+}
+
+.recipe-card:hover .card-image {
+    transform: scale(1.08);
+}
+
+/* Gradient overlay on image bottom for text readability */
+.card-image-wrapper::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 100%);
+    pointer-events: none;
+}
+
+/* Category badge on card */
+.card-badge {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    padding: 0.3rem 0.75rem;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #fff;
+    background: rgba(245, 158, 11, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 20px;
+    z-index: 2;
+}
+
+/* Card Info (below image) */
+.card-info {
+    padding: 1rem 1.15rem;
+}
+
+.card-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-main);
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.card-meta {
+    margin-top: 0.4rem;
+    font-size: 0.75rem;
+    color: var(--text-faint);
+    font-weight: 500;
+}
+
+/* ============================================================
+   MODAL — Full-Screen Recipe Detail Overlay
+   ============================================================ */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 2rem 1rem;
+    overflow-y: auto;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.35s ease, visibility 0.35s ease;
+}
+
+/* When modal is open (class toggled by JS) */
+.modal-overlay.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    width: 100%;
+    max-width: 640px;
+    position: relative;
+    overflow: hidden;
+    transform: translateY(30px) scale(0.95);
+    transition: transform 0.4s var(--ease-out);
+}
+
+.modal-overlay.open .modal-content {
+    transform: translateY(0) scale(1);
+}
+
+/* Close Button */
+.modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 10;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    color: #fff;
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.modal-close:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: rotate(90deg) scale(1.1);
+}
+
+/* Modal Image */
+.modal-image-wrapper {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+}
+
+.modal-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Modal Body */
+.modal-body {
+    padding: 1.75rem 1.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.modal-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--text-main);
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+}
+
+.modal-meta {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.modal-tag {
+    padding: 0.3rem 0.85rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+    background: rgba(245, 158, 11, 0.12);
+    border: 1px solid rgba(245, 158, 11, 0.25);
+    border-radius: 20px;
+}
+
+/* Modal Sections */
+.modal-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.modal-section-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-main);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.modal-section-title svg {
+    color: var(--accent);
+}
+
+/* Ingredients List */
+.ingredients-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.4rem;
+}
+
+.ingredient-item {
+    padding: 0.6rem 0.85rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-main);
+    background: var(--glass-bg-light);
+    border: 1px solid transparent;
+    border-radius: var(--radius-xs);
+    transition: all var(--transition-base);
+}
+
+.ingredient-item:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: var(--glass-border);
+}
+
+.ingredient-measure {
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+/* Instructions */
+.instructions-text {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.75;
+    white-space: pre-line;
+}
+
+/* YouTube Link */
+.youtube-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 0.85rem 1.5rem;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #ef4444;
+    text-decoration: none;
+    transition: all var(--transition-base);
+    align-self: flex-start;
+}
+
+.youtube-link:hover {
+    background: rgba(239, 68, 68, 0.12);
+    border-color: rgba(239, 68, 68, 0.3);
+    transform: translateY(-2px);
+}
+
+/* Prevent body scroll when modal is open */
+body.modal-open {
+    overflow: hidden;
+}
+
+/* --- Footer --- */
+.footer {
+    padding: 1.5rem;
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--text-faint);
+    font-weight: 500;
+}
+
+/* --- Animations --- */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes cardSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(24px) scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* --- Responsive --- */
+@media (max-width: 700px) {
+    .app-wrapper {
+        padding: 2rem 1rem 1.5rem;
+    }
+
+    .app-title {
+        font-size: 1.6rem;
+    }
+
+    .recipe-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 1rem;
+    }
+
+    .card-info {
+        padding: 0.85rem 0.9rem;
+    }
+
+    .card-title {
+        font-size: 0.9rem;
+    }
+
+    .modal-content {
+        max-width: 100%;
+        border-radius: var(--radius-md);
+    }
+
+    .modal-body {
+        padding: 1.25rem 1.15rem 1.5rem;
+    }
+
+    .modal-title {
+        font-size: 1.25rem;
+    }
+
+    .ingredients-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 400px) {
+    .recipe-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .filter-bar {
+        gap: 0.35rem;
+    }
+
+    .filter-btn {
+        padding: 0.4rem 0.7rem;
+        font-size: 0.7rem;
+    }
+}

@@ -1,0 +1,71 @@
+[
+  {
+    "id": "nigerian-1",
+    "name": "Jollof Rice with Plantain",
+    "category": "Nigerian",
+    "area": "Nigerian",
+    "instructions": "1. Blend tomatoes, peppers, and onions into a smooth paste.\n2. Boil the paste until water evaporates.\n3. Fry in oil, add spices, then mix in parboiled rice.\n4. Steam until cooked. Serve with fresh fried plantains.",
+    "thumbnail": "https://commons.wikimedia.org/wiki/Special:FilePath/Home_made_jollof_rice.jpg",
+    "youtube": "https://www.youtube.com/watch?v=WZgHVM0dzLI",
+    "ingredients": [
+      {
+        "ingredient": "Long grain rice",
+        "measure": "3 cups"
+      },
+      {
+        "ingredient": "Plum tomatoes",
+        "measure": "6 large"
+      },
+      {
+        "ingredient": "Plantains",
+        "measure": "2 ripe"
+      }
+    ]
+  },
+  {
+    "id": "nigerian-2",
+    "name": "Pounded Yam and Egusi Soup",
+    "category": "Nigerian",
+    "area": "Nigerian",
+    "instructions": "1. Boil assorted meat and dry fish until tender.\n2. Blend melon seeds (egusi) and fry in palm oil.\n3. Add meat stock, bitter leaf, and simmer.\n4. Boil yam and pound until smooth.",
+    "thumbnail": "https://commons.wikimedia.org/wiki/Special:FilePath/EGUSI_SOUP_AND_POUNDED_YAM.JPG",
+    "youtube": "https://www.youtube.com/watch?v=4VUfiRB4O9E",
+    "ingredients": [
+      {
+        "ingredient": "Yam",
+        "measure": "1 medium"
+      },
+      {
+        "ingredient": "Egusi (Melon seeds)",
+        "measure": "2 cups"
+      },
+      {
+        "ingredient": "Palm Oil",
+        "measure": "1/2 cup"
+      }
+    ]
+  },
+  {
+    "id": "nigerian-3",
+    "name": "Spicy Beef Suya",
+    "category": "Nigerian",
+    "area": "Nigerian",
+    "instructions": "1. Slice beef into thin strips.\n2. Coat generously with suya spice (yaji).\n3. Thread onto skewers.\n4. Grill over high heat until charred.\n5. Serve with sliced onions and tomatoes.",
+    "thumbnail": "https://commons.wikimedia.org/wiki/Special:FilePath/Suya_take_away.jpg",
+    "youtube": "https://www.youtube.com/watch?v=yQ0y_H313U8",
+    "ingredients": [
+      {
+        "ingredient": "Beef",
+        "measure": "500g"
+      },
+      {
+        "ingredient": "Suya Spice",
+        "measure": "3 tbsp"
+      },
+      {
+        "ingredient": "Vegetable Oil",
+        "measure": "2 tbsp"
+      }
+    ]
+  }
+]
