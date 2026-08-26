@@ -2,88 +2,39 @@
  * INTERACTIVE QUIZ APP - INTERMEDIATE FRONTEND PROJECT
  * 
  * ==============================================================================
- * HOW IT WORKS (SIWES Documentation)
+ * HOW IT WORKS (SIWES Documentation & Architecture)
  * ==============================================================================
  * 
- * 1. STATE MANAGEMENT: 
- *    The app uses a unified 'state' object (`quizState`) to track the current 
- *    question index and the user's score. This ensures data is decoupled from the DOM.
+ * 1. CONCURRENT ASYNCHRONOUS DATA FETCHING (Promise.all):
+ *    The app fetches questions from two distinct Open Trivia DB categories simultaneously:
+ *    - Category 18: Science: Computers (5 questions)
+ *    - Category 9: General Knowledge (5 questions)
+ *    `Promise.all` is used to execute both HTTP requests in parallel for optimal performance.
  * 
- * 2. DATA STRUCTURE: 
- *    The questions are stored in an array of objects (`quizData`). Each object 
- *    contains the question text, an array of options, and the index of the correct answer.
+ * 2. DATA MERGING & CATEGORY RANDOMIZATION:
+ *    The `results` arrays from both API responses are merged into a single array of 10 questions,
+ *    which is then shuffled using the Fisher-Yates algorithm so the categories are evenly mixed.
  * 
- * 3. DOM MANIPULATION (Rendering): 
- *    The `renderQuestion` function dynamically generates the HTML buttons for 
- *    the options. It clears the previous options and creates new ones using 
- *    `document.createElement`, preventing XSS vulnerabilities compared to using innerHTML.
+ * 3. OPTION MERGING & SHUFFLING:
+ *    For each individual question, `correct_answer` and `incorrect_answers` are merged into 
+ *    a single array and shuffled so the correct answer appears in a random position.
  * 
- * 4. EVENT DELEGATION & HANDLING: 
- *    When an option is clicked, `handleAnswerSelection` evaluates the choice. 
- *    It temporarily disables all buttons to prevent multiple clicks, applies 
- *    CSS classes for visual feedback (green for correct, red for wrong), and 
- *    uses a `setTimeout` to automatically advance to the next question.
+ * 4. HTML ENTITY DECODING:
+ *    All fetched strings containing HTML entities (e.g. &quot;, &#039;, &amp;, &eacute;) are 
+ *    properly decoded using `DOMParser` before rendering to the DOM.
  * 
- * 5. SEPARATION OF CONCERNS:
- *    - HTML (Structure): Semantic tags (<main>, <section>, <header>).
- *    - CSS (Presentation): CSS Variables for theming, Flexbox for layout, Glassmorphism.
- *    - JS (Behavior): Modular functions handling single responsibilities.
+ * 5. STATE MANAGEMENT & DOM INTERACTION:
+ *    - `quizState` manages current question index and score.
+ *    - Visual feedback (green/red) and automated progression guide the user experience.
  * ==============================================================================
  */
 
-// --- 1. QUIZ DATA ---
-const quizData = [
-    {
-        question: "Which planet is known as the Red Planet?",
-        options: [
-            "Venus",
-            "Jupiter",
-            "Mars",
-            "Saturn"
-        ],
-        correctAnswerIndex: 2
-    },
-    {
-        question: "What is the largest ocean on Earth?",
-        options: [
-            "Atlantic Ocean",
-            "Indian Ocean",
-            "Arctic Ocean",
-            "Pacific Ocean"
-        ],
-        correctAnswerIndex: 3
-    },
-    {
-        question: "Who painted the Mona Lisa?",
-        options: [
-            "Vincent van Gogh",
-            "Leonardo da Vinci",
-            "Pablo Picasso",
-            "Claude Monet"
-        ],
-        correctAnswerIndex: 1
-    },
-    {
-        question: "Which continent is the Sahara Desert located in?",
-        options: [
-            "Asia",
-            "South America",
-            "Africa",
-            "Australia"
-        ],
-        correctAnswerIndex: 2
-    },
-    {
-        question: "What is the chemical symbol for Gold?",
-        options: [
-            "Ag",
-            "Au",
-            "Fe",
-            "Pb"
-        ],
-        correctAnswerIndex: 1
-    }
-];
+// --- 1. CONFIGURATION & CONSTANTS ---
+const COMPUTER_SCIENCE_API_URL = 'https://opentdb.com/api.php?amount=5&category=18&type=multiple';
+const GENERAL_KNOWLEDGE_API_URL = 'https://opentdb.com/api.php?amount=5&category=9&type=multiple';
+
+// Dynamic quiz data populated from Open Trivia DB
+let quizData = [];
 
 // --- 2. STATE MANAGEMENT ---
 const quizState = {
@@ -105,21 +56,145 @@ const elements = {
     restartBtn: document.getElementById('restart-btn')
 };
 
-// --- 4. CORE LOGIC ---
+// --- 4. HELPER FUNCTIONS ---
 
 /**
- * Initializes the quiz by resetting the state and rendering the first question.
+ * Decodes HTML entities (e.g. &quot;, &#039;, &amp;) in a string.
+ * Uses DOMParser to safely parse HTML entities into plain text.
+ * 
+ * @param {string} str - The string containing HTML entities.
+ * @returns {string} The decoded plain text string.
  */
-function initQuiz() {
+function decodeHTMLEntities(str) {
+    if (!str) return '';
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(str, 'text/html');
+    return doc.documentElement.textContent || '';
+}
+
+/**
+ * Shuffles an array in-place using the Fisher-Yates (Knuth) shuffle algorithm.
+ * Returns a new shuffled array without mutating the original.
+ * 
+ * @param {Array} array - The array of items to shuffle.
+ * @returns {Array} A newly shuffled copy of the array.
+ */
+function shuffleArray(array) {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+}
+
+// --- 5. ASYNCHRONOUS DATA FETCHING ---
+
+/**
+ * Asynchronously fetches 5 Computer Science and 5 General Knowledge questions
+ * simultaneously using Promise.all, merges and shuffles the questions and their options,
+ * and decodes all HTML entities.
+ * 
+ * @returns {Promise<Array>} The processed array of 10 mixed question objects.
+ */
+async function fetchQuestions() {
+    try {
+        // Fetch both endpoints concurrently using Promise.all
+        const [csResponse, gkResponse] = await Promise.all([
+            fetch(COMPUTER_SCIENCE_API_URL),
+            fetch(GENERAL_KNOWLEDGE_API_URL)
+        ]);
+
+        if (!csResponse.ok || !gkResponse.ok) {
+            throw new Error('Failed to fetch from one or more Open Trivia DB endpoints.');
+        }
+
+        // Parse JSON responses in parallel
+        const [csData, gkData] = await Promise.all([
+            csResponse.json(),
+            gkResponse.json()
+        ]);
+
+        const csResults = csData.results || [];
+        const gkResults = gkData.results || [];
+
+        // Merge results into a single array of 10 questions
+        const combinedQuestions = [...csResults, ...gkResults];
+
+        if (combinedQuestions.length === 0) {
+            throw new Error('No quiz questions were returned by the API endpoints.');
+        }
+
+        // Shuffle the combined questions array so categories are mixed
+        const mixedQuestions = shuffleArray(combinedQuestions);
+
+        // Transform and normalize each question
+        quizData = mixedQuestions.map((item) => {
+            // Decode HTML entities for question and answers
+            const decodedQuestion = decodeHTMLEntities(item.question);
+            const decodedCorrectAnswer = decodeHTMLEntities(item.correct_answer);
+            const decodedIncorrectAnswers = item.incorrect_answers.map(decodeHTMLEntities);
+
+            // Merge correct_answer and incorrect_answers into a single array
+            const mergedAnswers = [decodedCorrectAnswer, ...decodedIncorrectAnswers];
+
+            // Shuffle the merged answers array so the correct answer is in a random position
+            const shuffledOptions = shuffleArray(mergedAnswers);
+
+            // Find index of the correct answer in the shuffled options
+            const correctAnswerIndex = shuffledOptions.indexOf(decodedCorrectAnswer);
+
+            return {
+                question: decodedQuestion,
+                options: shuffledOptions,
+                correctAnswerIndex: correctAnswerIndex,
+                category: decodeHTMLEntities(item.category)
+            };
+        });
+
+        return quizData;
+    } catch (error) {
+        console.error('Error fetching mixed quiz data:', error);
+        throw error;
+    }
+}
+
+// --- 6. CORE LOGIC ---
+
+/**
+ * Initializes the quiz by resetting the state, fetching mixed questions dynamically,
+ * and rendering the first question.
+ */
+async function initQuiz() {
     quizState.currentQuestionIndex = 0;
     quizState.score = 0;
+    quizData = [];
     
     // Reset UI visibility
     elements.quizHeader.hidden = false;
     elements.quizBody.hidden = false;
     elements.resultScreen.hidden = true;
+
+    // Display loading state
+    elements.questionText.textContent = "Loading questions...";
+    elements.optionsContainer.innerHTML = '';
+    elements.progressText.textContent = "Fetching mixed quiz from Open Trivia DB...";
+    elements.progressBarFill.style.width = '0%';
     
-    renderQuestion();
+    try {
+        await fetchQuestions();
+        renderQuestion();
+    } catch (error) {
+        elements.questionText.textContent = "Failed to load questions. Please check your internet connection and try again.";
+        elements.optionsContainer.innerHTML = '';
+        
+        const retryBtn = document.createElement('button');
+        retryBtn.textContent = "Retry";
+        retryBtn.classList.add('option-btn');
+        retryBtn.style.textAlign = 'center';
+        retryBtn.addEventListener('click', initQuiz);
+        elements.optionsContainer.appendChild(retryBtn);
+    }
 }
 
 /**
@@ -177,7 +252,9 @@ function handleAnswerSelection(selectedIndex, selectedButton) {
         
         // Highlight the correct answer for the user
         const correctButton = allButtons[currentQuestion.correctAnswerIndex];
-        correctButton.classList.add('correct');
+        if (correctButton) {
+            correctButton.classList.add('correct');
+        }
     }
 
     // Advance to the next question or show results after a short delay (for UX)
@@ -210,16 +287,18 @@ function showResults() {
     const percentage = quizState.score / totalQuestions;
     if (percentage === 1) {
         elements.resultMessage.textContent = "Perfect Score! 🏆";
-    } else if (percentage >= 0.6) {
+    } else if (percentage >= 0.7) {
         elements.resultMessage.textContent = "Great Job! 🌟";
+    } else if (percentage >= 0.4) {
+        elements.resultMessage.textContent = "Good Effort! 👍";
     } else {
         elements.resultMessage.textContent = "Keep Practicing! 💪";
     }
 }
 
-// --- 5. EVENT LISTENERS ---
+// --- 7. EVENT LISTENERS ---
 elements.restartBtn.addEventListener('click', initQuiz);
 
-// --- 6. BOOTSTRAP ---
+// --- 8. BOOTSTRAP ---
 // Start the quiz when the script loads
 initQuiz();
